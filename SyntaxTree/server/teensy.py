@@ -1,7 +1,10 @@
 import os, json
 from uuid import uuid1
-from flask import Flask, request, send_from_directory, send_file, render_template, flash
-from SyntaxTreeBuilder import *
+from flask import Flask, request, send_from_directory, send_file, render_template, flash, redirect, url_for
+import SyntaxTreeBuilder
+
+w = SyntaxTreeBuilder.WordManager()
+t = SyntaxTreeBuilder.TreeBuilder(w)
 
 app = Flask(__name__)
 
@@ -12,9 +15,14 @@ app.secret_key = uuid1().bytes #b'_5#y2L"F4Q8z\n\xec]/'
 def index():
     return render_template('index.html')
 
+@app.route('/api/save')
+def save_all():
+    w.saveWordClasses()
+    return redirect(url_for('index'))
+
 @app.route('/api/p')
 def process():
-    global localBank
+    #global localBank
 
     if 'q' not in request.args:
         return "No sentence in args!", 400
@@ -23,44 +31,40 @@ def process():
     
     finalTree = find_json_file(sentence)
     if not finalTree:
-        print("constructing perspectives")
-        try:
-            p, localBank = constructBasePerspectives(sentence, localBank)
-        except Exception as e:
-            return "Failed to collect word definitions: {}".format(str(e)), 500
-
         print("building syntax tree")
         try:
-            treeData = BuildSyntaxTree(p, verbose = 1)
+            treeData = t.BuildSyntaxTree(sentence, verbose = 1)
         except Exception as e:
             return "Failed to build Syntax tree: {}".format(str(e)), 500
 
         print("pruning syntax tree")
+        finalTrees = t.pruneTrees(treeData)
+        finalTree = finalTrees[0]
         try:
-            finalTrees = pruneTrees(treeData[0])
-            finalTree = finalTrees[0]
             save_json_file(sentence, finalTree)
         except Exception as e:
             return "Failed to prune Syntax trees, this means no full trees were created: {}".format(str(e)), 500
         
     print("building tree representation")
     try:
-        saveDict(localBank, 'local_bank.json')
+        #SyntaxTreeBuilder.utils.saveDict(localBank, 'local_bank.json')
         
         if request.args['returnType'] == 'latex':
-            return "<pre>{}</pre>".format(latexTree(finalTree))
+            return "<pre>{}</pre>".format(SyntaxTreeBuilder.export.latexTree(finalTree))
         
         if request.args['returnType'] == 'json':
             return json.dumps(finalTree)
         
         if request.args['returnType'] == 'text':
-            anyTreeRoot = anyTree(finalTree)
-            return "<pre>{}</pre>".format(textAnyTree(anyTreeRoot))
+            anyTreeRoot = SyntaxTreeBuilder.export.anyTree(finalTree)
+            return "<pre>{}</pre>".format(SyntaxTreeBuilder.export.textAnyTree(anyTreeRoot))
         
         if request.args['returnType'] == 'img':
             if not os.path.isfile("./trees/img/{}.png".format(sentence)):
-                anyTreeRoot = anyTree(finalTree)
-                graphAnyTree(anyTreeRoot, "./trees/img/{}".format(sentence))
+                print('building tree')
+                anyTreeRoot = SyntaxTreeBuilder.export.anyTree(finalTree)
+                print('graphing tree')
+                SyntaxTreeBuilder.export.graphAnyTree(anyTreeRoot, "./trees/img/{}".format(sentence))
             return send_from_directory(app.config["TREE_IMGS"], filename="{}.png".format(sentence))
         
     except Exception as e:
@@ -83,5 +87,5 @@ def find_json_file(sentence):
     return tree
     
 if __name__ == '__main__':
-    localBank = loadDict('../local_bank.json')
+    #localBank = SyntaxTreeBuilder.utils.loadDict('../local_bank.json')
     app.run('0.0.0.0', port=3000, debug = True)

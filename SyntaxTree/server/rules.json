@@ -1,0 +1,21 @@
+{
+    "adjP" : [["adjbar"]],
+    "adjbar" : [["adj"], ["advP", "adjbar"]],
+    "advP" : [["advbar"]],
+    "advbar" : [["adv"], ["advP", "advbar"]],
+    "nbar": [["adjP", "nbar"], ["nbar", "pP"], ["n"], ["n", "pP"], ["pn"]],
+    "nP" : [["nbar"], ["nP", "conj", "nP"]],
+    "dbar" : [["d", "nP"], ["nP"]],
+    "dP" : [["dP", "dbar"], ["dbar"], ["dP", "conj", "dP"]],
+    "pbar" : [["p", "dP"]],
+    "pP" : [["pbar"]],
+    "vP" : [["vbar"], ["vP", "conj", "vP"]],
+    "vbar" : [["vbar", "pP"], ["vbar", "advP"], ["advP", "vbar"], ["vbar", "dP"], ["v"], ["v", "pP"], ["v", "dP"], ["v", "adjP"], ["v", "vP"]],
+    "negbar" : [["neg", "vP"]],
+    "negP" : [["negbar"]],
+    "t" : [["v"]],
+    "tbar" : [["vP"], ["t", "vP"], ["t", "negP"]],
+    "tP" : [["dP", "tbar"], ["tP", "conj", "tP"]],
+    "cbar" : [["c", "tP"], ["tP"]],
+    "cP" : [["cbar"], ["cP", "conj", "cP"]]
+}

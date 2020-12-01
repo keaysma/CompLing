@@ -263,12 +263,14 @@ def BuildSyntaxTree(perspectives, maxNode = "cP", verbose = 0):
         next_perspectives = []
         for perspective in new_perspectives:
             if perspective not in exhaustive_perspectives:
-                dprint("{} -> exhaustive_perspectives, generically missing".format(perspective), verbose, 3)
-                exhaustive_perspectives.append(perspective)
-                next_perspectives.append(perspective)
-            if inTreeTop(perspective, maxNode, strict = True) == (True, True) and perspective not in final_perspectives:
-                dprint("{} -> final_perspectives, completed tree".format(perspective), verbose, 3)
-                final_perspectives.append(perspective)
+                if inTreeTop(perspective, maxNode, strict = True) == (True, True) and perspective not in final_perspectives:
+                    dprint("{} -> final_perspectives, completed tree".format(perspective), verbose, 3)
+                    final_perspectives.append(perspective)
+                else:
+                    dprint("{} -> exhaustive_perspectives, generically missing".format(perspective), verbose, 3)
+                    exhaustive_perspectives.append(perspective)
+                    next_perspectives.append(perspective)
+            
         
         #Stops searching
         if perspectives == next_perspectives or len(next_perspectives) == 0:
@@ -321,7 +323,7 @@ def textAnyTree(anyTreeRoot):
 def graphAnyTree(anyTreeRoot, filename):
     def nodenamefunc(node):
         return '%s' % (node.name)
-
+    
     UniqueDotExporter(anyTreeRoot, 
                       nodenamefunc=nodenamefunc,
                       nodeattrfunc=lambda node: 'label="{}";shape=none'.format(node.dname)).to_picture("{}.png".format(filename))
