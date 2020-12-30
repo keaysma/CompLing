@@ -6,7 +6,7 @@ t = SyntaxTreeBuilder.TreeBuilder(w)
 
 profile = cProfile.Profile()
 profile.enable()
-tree = t.BuildSyntaxTree('The dog is really really really really tall')
+tree = t.BuildSyntaxTree('The man and the table and the egg run to the dog and the lamp')
 profile.disable()
 profile.print_stats()
 

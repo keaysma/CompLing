@@ -246,6 +246,6 @@ class TreeBuilder:
         for tree in trees:
             print(len(tree))
             finishedVal = self.__inTreeTop(tree, "cP", strict = True)
-            if finishedVal[0] and finishedVal[1]:
+            if finishedVal: #[0] and finishedVal[1]:
                 pruned.append(tree)
         return pruned
