@@ -60,7 +60,7 @@ ExifRead==2.3.1
 fastcache==1.0.2
 filelock==3.0.4
 Flask==1.0.2
-Flask-Cors==3.0.4
+Flask-Cors==3.0.9
 Flask-Login==0.5.0
 Flask-Mail==0.9.1
 flask-mongoengine==0.9.5
