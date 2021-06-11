@@ -258,7 +258,7 @@ virtualenv==20.0.23
 wcwidth==0.1.7
 webencodings==0.5.1
 websocket==0.2.1
-websockets==8.1
+websockets==9.1
 Werkzeug==0.14.1
 widgetsnbextension==3.2.1
 wr==0.2.1
