@@ -44,7 +44,7 @@ cryptography==2.5
 cycler==0.10.0
 Cython==0.29.5
 cytoolz==0.9.0.1
-dask==0.17.5
+dask==2021.10.0
 dataclasses==0.7
 datashape==0.5.4
 decorator==4.3.0
