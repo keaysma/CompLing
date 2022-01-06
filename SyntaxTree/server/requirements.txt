@@ -28,7 +28,7 @@ boto==2.48.0
 Bottleneck==1.2.1
 bs4==0.0.1
 bson==0.5.9
-celery==4.4.5
+celery==5.2.2
 certifi==2018.11.29
 cffi==1.11.5
 chardet==3.0.4
