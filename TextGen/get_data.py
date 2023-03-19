@@ -12,7 +12,7 @@ Rinse and repeat
 
 BASE_URL = "https://en.wikipedia.org"
 STARTING_URL = "/wiki/Philosophy"
-PAGES_TO_READ = 5000
+PAGES_TO_READ = 2_500
 
 Tokens = List[str]
 Links = List[str]
@@ -28,9 +28,10 @@ def download_page(url: str) -> PageData:
     print(f"{res=}")
     
     soup = BeautifulSoup(res.text)
+    ps = soup.find_all('p')
     #print(f"{soup=}")
 
-    tokens = soup.text.split()
+    tokens = ' '.join([p.text for p in ps]).split() #soup.text.split()
 
     links = soup.find_all('a')
     all_hrefs = [l.get('href') for l in links]
