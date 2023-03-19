@@ -148,7 +148,7 @@ def next_word_v8(spread: Dict[str, Weights]) -> str:
 
 import random
 #KEY_LEN_FACTOR = [-1, -9, -1, -3, 5, 6, 5,4,3,3,-20,-2,-3,-4,-10]
-KEY_LEN_FACTOR = [0,-1,-2,1,1,1,1,1,1,1,1,1,1,1,1]
+KEY_LEN_FACTOR = [0,-3,-2,1,1,1,1,1,1,1,1,1,1,1,1]
 def next_word_v9(spread: Dict[str, Weights]) -> str:
     strength: Dict[str, int] = defaultdict(int)
     strength_sentinel: Dict[str, Tuple[int, int]] = {}
@@ -235,5 +235,5 @@ def brute_force_ramble(w: BaysianWeights, prompt: str, length: int = 5, fn: Call
 
 if __name__ == '__main__':
     mod = BaysianWeights()
-    #train_on_data(mod)
-    #mod.save_weights()
+    train_on_data(mod)
+    mod.save_weights()
