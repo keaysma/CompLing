@@ -12,7 +12,7 @@ Rinse and repeat
 
 BASE_URL = "https://en.wikipedia.org"
 STARTING_URL = "/wiki/Philosophy"
-PAGES_TO_READ = 40
+PAGES_TO_READ = 500
 
 Tokens = List[str]
 Links = List[str]

@@ -6,7 +6,7 @@ Weights = List[Tuple[str, int]]
 
 t = ['this', 'is', 'a', 'test', 'of', 'the', 'system!']
 
-WINDOW_MAX_SIZE = 15
+WINDOW_MAX_SIZE = 20
 MAX_TRAINING_FILES = 2_500
 
 class BaysianWeights:
@@ -20,9 +20,11 @@ class BaysianWeights:
         return ' '.join(inputs)
 
     def load_weights(self, path_to_weights: str = "./weights.json") -> None:
+        print(f"loading weights from {path_to_weights}")
         self.weights = json.load(open(path_to_weights, 'r'))
     
     def save_weights(self, path_to_weights: str = "./weights.json") -> None:
+        print(f"saving weights to {path_to_weights}")
         with open(path_to_weights, 'w') as f:
             f.write(json.dumps(self.weights))
         return
@@ -147,8 +149,8 @@ def next_word_v8(spread: Dict[str, Weights]) -> str:
     return strength_tuples[0][0]
 
 import random
-#KEY_LEN_FACTOR = [-1, -9, -1, -3, 5, 6, 5,4,3,3,-20,-2,-3,-4,-10]
-KEY_LEN_FACTOR = [0,-3,-2,1,1,1,1,1,1,1,1,1,1,1,1]
+#KEY_LEN_FACTOR = [-1, -9, -1, -3, 5, 6, 5,4,3,3,-20,-2,-3,-4,-10, -8,-6,-4,-2,-1]
+KEY_LEN_FACTOR = [0,-3,-2,1,1,1,1,1,1,1,1,1,1,1,1, 1,1,1,1,1]
 def next_word_v9(spread: Dict[str, Weights]) -> str:
     strength: Dict[str, int] = defaultdict(int)
     strength_sentinel: Dict[str, Tuple[int, int]] = {}
